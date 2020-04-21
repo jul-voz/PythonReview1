@@ -1,5 +1,8 @@
 from itertools import product
 
+import pickle
+import os.path
+
 import pygame
 from pygame import Surface
 
@@ -37,7 +40,7 @@ def draw_board(screen: Surface, pos_x: int, pos_y: int, elem_size: int, board: B
 def game_loop(screen: Surface, board: BoardState, ai: AI):
     grid_size = screen.get_size()[0] // 8
 
-    while True:
+    while not board.is_game_finished:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -52,6 +55,7 @@ def game_loop(screen: Surface, board: BoardState, ai: AI):
                 new_board = board.do_move(old_x, old_y, new_x, new_y)
                 if new_board is not None:
                     board = new_board
+                    board.current_player *= -1
 
             if event.type == pygame.MOUSEBUTTONUP and event.button == 3:
                 x, y = [p // grid_size for p in event.pos]
@@ -65,9 +69,21 @@ def game_loop(screen: Surface, board: BoardState, ai: AI):
                     new_board = ai.next_move(board)
                     if new_board is not None:
                         board = new_board
+                        board.current_player *= -1
+
+                if event.key == pygame.K_s:
+                    with open('saved_state', 'wb') as file:
+                        pickle.dump(board, file)
+
+                if event.key == pygame.K_l:
+                    if os.path.exists('saved_state') and os.path.isfile('saved_state'):
+                        with open('saved_state', 'rb') as file:
+                            board = pickle.load(file)
 
         draw_board(screen, 0, 0, grid_size, board)
         pygame.display.flip()
+
+    print("Winner: player " + str(board.get_winner))
 
 
 pygame.init()
