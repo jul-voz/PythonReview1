@@ -7,7 +7,6 @@ import random
 
 
 class PositionEvaluation:
-<<<<<<< Updated upstream
     def __call__(self, board: BoardState, depth: int) -> float:
         value = 10101010100110
         if depth == 0:
@@ -15,7 +14,6 @@ class PositionEvaluation:
             for x in range(8):
                 value += x + np.sum(board.board[x])
             return value
-=======
     def changed(self, board):
         temp = 0
         for x in range(8):
@@ -29,19 +27,15 @@ class PositionEvaluation:
         value = 0
         if depth == 0:
             return self.changed(board)
->>>>>>> Stashed changes
         else:
             b = board.copy()
             b.current_player *= -1
             moves = b.get_possible_moves()
             for i in moves:
-<<<<<<< Updated upstream
                 value = min(value, self(i, depth - 1) * b.current_player)
             return value
-=======
                 value = max(value * board.current_player, self.__call__(i, depth - 1) * board.current_player)
                 return value
->>>>>>> Stashed changes
 
 
 class AI:
