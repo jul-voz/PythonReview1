@@ -6,6 +6,7 @@ import os.path
 import pygame
 from pygame import Surface
 
+
 from src.ai import AI, PositionEvaluation
 from src.boardstate import BoardState
 
@@ -38,6 +39,7 @@ def draw_board(screen: Surface, pos_x: int, pos_y: int, elem_size: int, board: B
 
 
 def game_loop(screen: Surface, board: BoardState, ai: AI):
+    global mouse_click_position
     grid_size = screen.get_size()[0] // 8
 
     while not board.is_game_finished:

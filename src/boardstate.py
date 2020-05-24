@@ -52,6 +52,31 @@ class BoardState:
             return result
 
         return None
+<<<<<<< Updated upstream
+=======
+
+    def steps3(self, x, y, a, b):
+        new_board = self.copy()
+        new_board.board[y + a, x + b] = new_board.board[y, x]
+        new_board.board[y, x] = 0
+        return new_board
+
+    def steps4(self, x, y, a, b):
+        new_board = self.copy()
+        new_board.board[y + a, x + b] = 0
+        if a > 0:
+            if b > 0:
+                new_board.board[y + a + 1, x + b + 1] = new_board.board[y, x]
+            else:
+                new_board.board[y + a + 1, x + b - 1] = new_board.board[y, x]
+        elif a < 0:
+            if b > 0:
+                new_board.board[y + a - 1, x + b + 1] = new_board.board[y, x]
+            else:
+                new_board.board[y + a - 1, x + b - 1] = new_board.board[y, x]
+        new_board.board[y, x] = 0
+        return new_board
+>>>>>>> Stashed changes
 
     def get_possible_moves(self) -> List['BoardState']:
         result = []
@@ -62,6 +87,7 @@ class BoardState:
                         if y > 0:
                             if x > 0:
                                 if self.board[y - 1, x - 1] == 0:
+<<<<<<< Updated upstream
                                     new_board = self.copy()
                                     new_board.board[y - 1, x - 1] = new_board.board[y, x]
                                     new_board.board[y, x] = 0
@@ -109,6 +135,27 @@ class BoardState:
                                     new_board.board[y + 2, x + 2] = new_board.board[y, x]
                                     new_board.board[y, x] = 0
                                     result += [new_board]
+=======
+                                    result += [self.steps3(self, x, y, -1, -1)]
+                                elif sign(self.board[y - 1, x - 1]) == -sign(self.board[y, x]) and y > 1 and x > 1 and self.board[y - 2, x - 2] == 0:
+                                    result += [self.steps4(self, x, y, -1, -1)]
+                            if x < 7:
+                                if self.board[y - 1, x + 1] == 0:
+                                    result += [self.steps3(x, y, -1, 1)]
+                                elif sign(self.board[y - 1, x + 1]) == -sign(self.board[y, x]) and y > 1 and x < 6 and self.board[y - 2, x + 2] == 0:
+                                    result += [self.steps4(self, x, y, -1, 1)]
+                        if y < 7:
+                            if x > 0:
+                                if self.board[y + 1, x - 1] == 0:
+                                    result += [self.steps3(x, y, 1, -1)]
+                                elif sign(self.board[y + 1, x - 1]) == -sign(self.board[y, x]) and y < 6 and x > 1 and self.board[y + 2, x - 2] == 0:
+                                    result += [self.steps4(self, x, y, 1, -1)]
+                            if x < 7:
+                                if self.board[y + 1, x + 1] == 0:
+                                    result += [self.steps3(x, y, 1, 1)]
+                                elif sign(self.board[y + 1, x + 1]) == -sign(self.board[y, x]) and y < 6 and x < 6 and self.board[y + 2, x + 2] == 0:
+                                    result += [self.steps4(self, x, y, 1, 1)]
+>>>>>>> Stashed changes
                     elif abs(self.board[y, x]) == 2:
                         for i in [(-1, -1), (-1, 1), (1, 1), (1, -1)]:
                             y_t = y + i[0]
