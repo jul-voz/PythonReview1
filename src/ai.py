@@ -2,7 +2,6 @@ from typing import Optional
 
 from .boardstate import BoardState
 
-import numpy as np
 import random
 
 
@@ -16,7 +15,7 @@ class PositionEvaluation:
                     temp += (board.board[y, x] // 2)
         return temp
 
-    def __call__(self, board: BoardState, depth: int, color) -> float:
+    def __call__(self, board: BoardState, depth: int) -> float:
         value = 0
         if depth == 0:
             return self.changed(board)
@@ -25,7 +24,7 @@ class PositionEvaluation:
             b.current_player *= -1
             moves = b.get_possible_moves()
             for i in moves:
-                value = max(value * board.current_player, self.__call__(i, depth - 1) * board.current_player)
+                value = max(value * b.current_player, self.__call__(i, depth - 1) * b.current_player)
                 return value
 
 
