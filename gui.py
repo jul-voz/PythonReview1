@@ -6,8 +6,8 @@ import os.path
 import pygame
 from pygame import Surface
 
-from .src.ai import AI, PositionEvaluation
-from .src.boardstate import BoardState
+from src.ai import AI, PositionEvaluation
+from src.boardstate import BoardState
 
 
 def draw_board(screen: Surface, pos_x: int, pos_y: int, elem_size: int, board: BoardState):
